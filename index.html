@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HABEDE CINTAA QQQ</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@500&display=swap" rel="stylesheet">
+
+<style>
+body{
+  margin:0;
+  font-family:'Quicksand',sans-serif;
+  background:#ffd6ec;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  overflow:hidden;
+  animation:fadeIn 2s;
+}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+.love{
+  position:fixed;
+  top:-20px;
+  color:#ff6fb5;
+  font-size:14px;
+  animation:fall linear infinite;
+  opacity:.7;
+  pointer-events:none;
+}
+@keyframes fall{to{transform:translateY(110vh);}}
+
+/* BOX */
+.box{
+  width:280px;
+  background:#ffc1e3;
+  border-radius:28px;
+  padding:25px;
+  box-shadow:0 20px 60px rgba(0,0,0,.2);
+  transition:.5s;
+}
+
+/* PAGE */
+.page{
+  display:none;
+  opacity:0;
+  transform:translateY(20px) scale(.95);
+  transition:.6s;
+  text-align:center;
+}
+.page.active{
+  display:block;
+  opacity:1;
+  transform:translateY(0) scale(1);
+}
+
+button{
+  border:none;
+  background:#ff6fb5;
+  color:#fff;
+  padding:10px 18px;
+  border-radius:14px;
+  margin-top:18px;
+  cursor:pointer;
+  font-size:14px;
+  transition:.3s;
+}
+button:hover{transform:scale(1.08)}
+
+input{
+  width:90%;
+  padding:10px;
+  border-radius:12px;
+  border:none;
+  margin-top:12px;
+}
+
+.type{
+  min-height:50px;
+  line-height:1.6;
+}
+
+/* sparkle */
+.spark{
+  position:fixed;
+  width:6px;height:6px;
+  background:#fff;
+  border-radius:50%;
+  animation:spark 2s linear infinite;
+}
+@keyframes spark{to{transform:translateY(110vh);opacity:0;}}
+
+/* cake */
+.cake{
+  font-size:150px;
+  margin:10px 0;
+}
+
+/* gallery */
+.gallery{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+}
+.gallery img{
+  width:120px;
+  border-radius:16px;
+}
+
+/* FINAL CINEMA */
+.finalScene{
+  position:fixed;
+  top:0;left:0;
+  width:100%;
+  height:100%;
+  background:#000;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  flex-direction:column;
+  opacity:0;
+  pointer-events:none;
+  transition:2s;
+  z-index:999;
+  overflow:hidden;
+}
+.finalScene.show{opacity:1;pointer-events:auto;}
+
+.garden{
+  position:absolute;
+  bottom:0;
+  width:100%;
+  height:100%;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  gap:80px;
+}
+
+/* BATANG */
+.stem{
+  width:8px;
+  height:0;
+  background:lime;
+  border-radius:10px;
+}
+
+/* BUNGA */
+.flowerTop{
+  width:70px;
+  height:70px;
+  background:red;
+  border-radius:50%;
+  position:absolute;
+  bottom:0;
+  opacity:0;
+  transform:scale(0);
+  box-shadow:
+  -40px 0 red,
+  40px 0 red,
+  0 -40px red,
+  0 40px red;
+}
+
+/* tiap bunga posisi */
+.flowerWrap{
+  positioxn:relative;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+}
+
+/* TUMBUH */
+.finalScene.show .stem{
+  animation:growStem 3s forwards;
+}
+.finalScene.show .flowerTop{
+  animation:flowerPop 1.5s forwards 3s, sway 3s ease-in-out infinite 4.5s;
+}
+
+/* tinggi beda biar natural */
+.flowerWrap:nth-child(1) .stem{animation-duration:3s}
+.flowerWrap:nth-child(2) .stem{animation-duration:3.4s}
+.flowerWrap:nth-child(3) .stem{animation-duration:2.8s}
+
+@keyframes growStem{
+  to{height:55vh}
+}
+
+@keyframes flowerPop{
+  to{
+    opacity:1;
+    transform:scale(1);
+    bottom:55vh;
+  }
+}
+
+/* GOYANG PELAN */
+@keyframes sway{
+  0%{transform:rotate(-3deg) scale(1)}
+  50%{transform:rotate(3deg) scale(1)}
+  100%{transform:rotate(-3deg) scale(1)}
+}
+
+/* TEXT */
+.loveText{
+  color:red;
+  font-size:40px;
+  margin-bottom:80px;
+  letter-spacing:4px;
+  opacity:0;
+  animation:textShow 3s forwards 6s;
+}
+@keyframes textShow{to{opacity:1;}}
+
+/* SLIDER FOTO */
+.slider{
+  width:100%;
+  overflow:hidden;
+  margin-top:10px;
+}
+
+.slides{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  scroll-snap-type:x mandatory;
+  padding-bottom:10px;
+}
+
+.slides img{
+  width:180px;
+  height:240px;
+  object-fit:cover;
+  border-radius:18px;
+  scroll-snap-align:center;
+  flex-shrink:0;
+  box-shadow:0 10px 25px rgba(0,0,0,.3);
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- MUSIC -->
+<audio id="bgm" src="ldr broklyn bby.mp3" loop></audio>
+<audio id="clickSound" src="click.mp3"></audio>
+
+<div class="box">
+
+<!-- LOGIN -->
+<div class="page active" id="p1">
+<h3>masuk dulu</h3>
+<input id="pass" placeholder="password">
+<button onclick="login()">enter</button>
+</div>
+
+<!-- LOADING -->
+<div class="page" id="loading">
+<p>tunggu bentar...</p>
+</div>
+
+<!-- IDENTITAS -->
+<div class="page" id="p2">
+<h3>isi dulu</h3>
+<input placeholder="nama">
+<input placeholder="umur">
+<button onclick="next(3)">lanjut</button>
+</div>
+
+<!-- KATA -->
+<div class="page" id="p3">
+<div class="type" id="t3"></div>
+<button onclick="next(4)">lanjut</button>
+</div>
+
+<!-- DOA -->
+<div class="page" id="p4">
+<div class="type" id="t4"></div>
+<button onclick="doa()">amin</button>
+</div>
+
+<!-- CAKE -->
+<div class="page" id="p5">
+<div class="cake" id="cake">🎂</div>
+<p>tiup 3x</p>
+<button onclick="tiup()">tiup</button>
+</div>
+
+<!-- GALERI 1 -->
+<div class="page" id="p6">
+<div class="slider">
+  <div class="slides">
+    <img src="sya1.jpeg">
+    <img src="sya2.jpeg">
+    <img src="sya3.jpeg">
+    <img src="sya4.jpeg">
+    <img src="sya5.jpeg">
+  </div>
+</div>
+<p style="font-size:12px;margin-top:10px;">geser ya →</p>
+<button onclick="next(7)">next</button>
+</div>
+
+<!-- PESAN -->
+<div class="page" id="p7">
+<div class="type" id="t7"></div>
+<button onclick="next(8)">next</button>
+</div>
+
+<!-- GALERI 2 -->
+<div class="page" id="p8">
+<div class="slider">
+  <div class="slides">
+    <img src="fotbarsya1.jpeg">
+    <img src="fotbarsya2 .jpeg">
+    <img src="fotbarsya3.jpeg">
+    <img src="fotbarsya4.jpeg">
+    <img src="fotbarsya5.jpeg">
+  </div>
+</div>
+<p style="font-size:12px;margin-top:10px;">geser ya →</p>
+<button onclick="next(9)">next</button>
+</div>
+
+<!-- THANKS -->
+<div class="page" id="p9">
+<div class="type" id="t9"></div>
+<button onclick="next(10)">next</button>
+</div>
+
+<!-- END -->
+<div class="page" id="p10">
+<p>klik pelan</p>
+<button onclick="next(11)">lihat</button>
+</div>
+
+<!-- PESAN TERAKHIR SEBELUM BUNGA -->
+<div class="page" id="p11">
+<div class="type" id="t11"></div>
+<button onclick="ending()">lanjut</button>
+</div>
+
+</div>
+
+<div class="finalScene" id="final">
+<div class="garden">
+
+<div class="flowerWrap">
+<div class="stem"></div>
+<div class="flowerTop"></div>
+</div>
+
+<div class="flowerWrap">
+<div class="stem"></div>
+<div class="flowerTop"></div>
+</div>
+
+<div class="flowerWrap">
+<div class="stem"></div>
+<div class="flowerTop"></div>
+</div>
+
+</div>
+<div class="loveText">I LOVE YOU</div>
+</div>
+
+<script>
+// ================= MUSIC AUTO =================
+document.addEventListener("click",()=>{
+  let m=document.getElementById("bgm");
+  if(m.paused){
+    m.volume=0;
+    m.play();
+    let v=0;
+    let fade=setInterval(()=>{
+      v+=0.05;
+      if(v>=0.7){v=0.7;clearInterval(fade);}
+      m.volume=v;
+    },200);
+  }
+},{once:true});
+
+// ================= SOUND KLIK =================
+function klik(){
+  let s=document.getElementById("clickSound");
+  s.currentTime=0;
+  s.play();
+}
+
+// ================= PASSWORD =================
+const PASSWORD="070208";
+
+// ================= SHOW PAGE =================
+function show(n){
+  document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+
+  let page=document.getElementById("p"+n) || document.getElementById(n);
+  page?.classList.add("active");
+
+  // typing tiap halaman
+  if(n==3) typeText("t3","hari ini ada princes lahir nih... hari yang sepeciall, cieeee akhirnya 18 nihhhhhh semangat menjadi tuwaaa wkwkwk");
+  if(n==4) typeText("t4","list doa: semoga panjang umur, sehat selalu, rejeki lancar, ga jatuh cinta sama beda agama, dapet cwo modelan sesuai type, di jauhkan dri marabahaya, di jauhkan dari cowo red flag, di jauhkan dari hal hal yang di larang tuhan, bahagia selalu, cita cita tercapai dan selalu menjadi tasya yang aku kenal❤️😘💕");
+  if(n==7) typeText("t7","terima kasih buat mamih karena udah ngelahirin kamu yang cantik ini, ANJAYY ehehehe terkadang semesta tu memang bikin kita bingung, kita di jauhkan dari hal yang kita inginkan agar kita bertemu dengan orang orang yang bakal menjadi pelajaran atau menjadi suatu alasan kita bertahan, dan inilah pertemuan kita yang penuh bermakna. jangan pernah ngerasa sendiri ya bub, di sini aku siap sedia dengerin curhatan kamu dri sabang sampai merauke!");
+  if(n==9) typeText("t9","makasih ya, udah mau berteman dengan q dan mau di repotin dengan q maaf untuk semua yang bikin kamu sakit hati, atsa semua sikap sikapku yang bikin kamy sakit hati. aku gini gini sayang lho sama kamu, meskipun aku di kelas memang glendotnya alpin nia, tapi kamu masi di hati q kok bub, karena bagaimana juga kamu yang menjadi saksi bagaimana kejamnya pembulian kls 10 itu, terimakasih atas supportnya ya bub, tolong hidup lebih lama supaya aku selalu kamu support.");
+  if(n==11) typeText("t11","sebelum semuanya selesai, aku cuma mau bilang...\nmakasih udah bertahan sejauh ini.\nsemoga semua yang kamu harapkan pelan-pelan jadi nyata.\ndan semoga kamu selalu bahagia, bahkan tanpa aku di setiap hari kamu.");
+}
+
+// ================= LOGIN =================
+function login(){
+  klik();
+  let v=document.getElementById("pass").value;
+  if(v===PASSWORD){
+    show("loading");
+    setTimeout(()=>{show(2)},1500);
+  } else alert("cluenya hbd kamu bub");
+}
+
+// ================= NEXT =================
+function next(n){
+  klik();
+  show(n);
+}
+
+// ================= TYPING EFFECT =================
+let typingInterval;
+function typeText(id,text){
+  let el=document.getElementById(id);
+  el.innerHTML="";
+  let i=0;
+  clearInterval(typingInterval);
+  typingInterval=setInterval(()=>{
+    if(i<text.length){
+      el.innerHTML+=text.charAt(i);
+      i++;
+    } else clearInterval(typingInterval);
+  },35);
+}
+
+// ================= DOA =================
+function doa(){
+  klik();
+  for(let i=0;i<40;i++){
+    let s=document.createElement("div");
+    s.className="spark";
+    s.style.left=Math.random()*window.innerWidth+"px";
+    document.body.appendChild(s);
+  }
+  setTimeout(()=>next(5),1500);
+}
+
+// ================= TIUP =================
+let hit=0;
+function tiup(){
+  klik();
+  hit++;
+  if(hit>=3){
+    document.getElementById("cake").innerHTML="🍰";
+    setTimeout(()=>next(6),1000);
+  }
+}
+
+// ================= LOVE FALL =================
+setInterval(()=>{
+  let l=document.createElement("div");
+  l.className="love";
+  l.innerHTML="❤";
+  l.style.left=Math.random()*window.innerWidth+"px";
+  l.style.animationDuration=3+Math.random()*5+"s";
+  document.body.appendChild(l);
+  setTimeout(()=>l.remove(),8000);
+},300);
+
+// ================= ENDING =================
+function ending(){
+  klik();
+  document.getElementById("final").classList.add("show");
+}
+</script>
+
+</body>
+</html>
